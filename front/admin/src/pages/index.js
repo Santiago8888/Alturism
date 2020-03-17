@@ -12,7 +12,6 @@ const cards = [
   { title: 'Recently Updated', content: 0, align: 'centered' }
 ]
 
-
 const ongs = [
   { id: 1, name: 'Org 1', email: 'mail@org1.com', phone: '55-1111-1111', description: true, images: 1 },
   { id: 2, name: 'Org 2', email: 'mail@org2.com', phone: '55-2222-2222', description: false, images: 2 },
@@ -33,7 +32,6 @@ const IndexPage = () => (
     </nav>
 
     <p className={`title is-2 has-text-centered`} style={{color:'rebeccapurple'}}> Admin Panel </p> 
-
     <div className="container" style={{ marginTop: '2rem'}}>
       <div className="columns">
         { cards.map(({ title, content, align }, i) => 
@@ -67,10 +65,10 @@ const IndexPage = () => (
           <th>Phone Number</th>
           <th><abbr title="Has Description">Description</abbr></th>
           <th><abbr title="No. of Images">Images</abbr></th>
-          <th></th>
-          <th></th>
+          <th colSpan="2"> Action</th>
         </tr>
       </thead>
+
       <tbody>
         { ongs.map(({ id, name, email, phone, description, images }) => <tr>
           <th> {id} </th>
