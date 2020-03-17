@@ -1,4 +1,8 @@
 @charset "utf-8";
-// If need, change your variables before importing Bulma
-$title-color: #ff0000;
-@import "~bulma/bulma.sass";
+
+table tr.is-selected { background-color: rgba(102, 51, 153, 0.5)!important }
+.card-header-title{ color: rebeccapurple!important }
+.has-text-danger{ color: darkred!important }
+$title-color: darkgreen;
+
+@import "~bulma/bulma.sass"
