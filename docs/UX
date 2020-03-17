@@ -1,0 +1,25 @@
+Admin
+
+Navbar
+Brand
+BreadCrumb
+
+Metrics
+Total ONGs
+Recently Created ONGs
+Updated ONGs
+
+Add Entry
+List/Table
+- Name
+- Email
+- Phone
+- Has Description
+- No. of Images
+- Edit / Delete
+
+
+Model Form
+- Create
+- Edit
+- Delete

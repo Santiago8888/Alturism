@@ -3,6 +3,9 @@
 table tr.is-selected { background-color: rgba(102, 51, 153, 0.5)!important }
 .card-header-title{ color: rebeccapurple!important }
 .has-text-danger{ color: darkred!important }
+strong{ color: rebeccapurple!important }
+th{text-align: center !important }
+td{text-align: center !important }
 $title-color: darkgreen;
 
 @import "~bulma/bulma.sass"
