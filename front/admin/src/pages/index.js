@@ -25,10 +25,10 @@ const ongs = [
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO title="Admin" />
     <nav className="breadcrumb" aria-label="breadcrumbs">
       <ul>
-        <li><Link to="/">Home</Link></li>
+        <li><Link to="/" style={{color:'rebeccapurple'}}>Home</Link></li>
       </ul>
     </nav>
 
