@@ -8,8 +8,8 @@ export const BreadCrumb = ({ crumbs }) => <nav className="breadcrumb" aria-label
   <ul>
     { crumbs.map(({link, text}, idx) => 
         idx < crumbs.length - 1
-        ?   <li><Link to={ link } style={{color:'rebeccapurple'}}> { text } </Link></li>
-        :   <li><span style={{padding:'0px 12px'}}> { text } </span></li>
+        ?   <li key={idx}><Link to={ link } style={{color:'rebeccapurple'}}> { text } </Link></li>
+        :   <li key={idx}><span style={{padding:'0px 12px'}}> { text } </span></li>
     )}
   </ul>
 </nav>

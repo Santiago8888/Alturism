@@ -24,8 +24,10 @@ const client = Stitch.initializeDefaultAppClient(appName)
 client.auth.loginWithCredential(new AnonymousCredential())
 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db(dbName)
 const get_ongs = () => db.collection(collection).find({}, { limit: 100}).asArray().catch(console.log)
+const post_ong = doc => db.collection(collection).insertOne(doc).catch(console.log)
 
-export const { Provider, Consumer } = React.createContext([]);
+
+export const { Provider, Consumer } = React.createContext({ONGs: []});
 
 export const Layout = ({ children }) => {
   const [ ONGs, setONGs ] = useState([])
@@ -60,7 +62,7 @@ export const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <Provider value={ONGs}>
+        <Provider value={{ONGs: ONGs, post:d => post_ong(d)}}>
           <main>{children}</main>
         </Provider>
         <footer style={{height:60}}>

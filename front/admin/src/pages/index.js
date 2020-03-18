@@ -60,8 +60,9 @@ const IndexPage = () => <Layout>
       >Add Organization</Link>
     </div>
   </div>
+
   <Consumer>
-    { value =>
+    { ({ONGs}) =>
       <table className="table has-text-centered">
         <thead>
           <tr>
@@ -76,15 +77,15 @@ const IndexPage = () => <Layout>
         </thead>
 
         <tbody>
-          { value.map(({ id, name, email, phone, description, images }) => <tr key={id}>
-            <th> {id} </th>
-            <td><Link to={`/org/${id}`} title="Leicester City"><strong> { name } </strong></Link></td>
+          { ONGs.map(({ name='', email='', phone='', description='', images=[] }, i) => <tr key={i + 1}>
+            <th> {i + 1} </th>
+            <td><Link to={`/org/${i + 1}`} title="Leicester City"><strong> { name } </strong></Link></td>
             <td> { email } </td>
             <td> { phone } </td>
-            <td className="is-capitalized"> { String(description) } </td>
-            <td> { images } </td>
-            <td><Link to={`/edit/${id}`} title="Edit">Edit</Link></td>
-            <td><Link to={`/delete/${id}`} title="Delete" className="has-text-danger">Delete</Link></td>
+            <td className="is-capitalized"> { String(description.length > 0) } </td>
+            <td> { images.length } </td>
+            <td><Link to={`/edit/${i + 1}`} title="Edit">Edit</Link></td>
+            <td><Link to={`/delete/${i + 1}`} title="Delete" className="has-text-danger">Delete</Link></td>
           </tr> )}
         </tbody>
       </table>
