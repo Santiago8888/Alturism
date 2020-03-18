@@ -5,14 +5,31 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
+
+import { RemoteMongoClient, Stitch, AnonymousCredential } from 'mongodb-stitch-browser-sdk'
 import { useStaticQuery, graphql } from "gatsby"
+
+import React, { useEffect, useState } from "react"
+import PropTypes from "prop-types"
 
 import Header from "./header"
 import "./layout.css"
 
-const Layout = ({ children }) => {
+
+const appName = 'yobs-wqucd'
+const dbName = 'Alturism'
+const collection = 'ONGs'
+
+const client = Stitch.initializeDefaultAppClient(appName)
+client.auth.loginWithCredential(new AnonymousCredential())
+const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db(dbName)
+const get_ongs = () => db.collection(collection).find({}, { limit: 100}).asArray().catch(console.log)
+
+export const { Provider, Consumer } = React.createContext([]);
+
+export const Layout = ({ children }) => {
+  const [ ONGs, setONGs ] = useState([])
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -22,6 +39,16 @@ const Layout = ({ children }) => {
       }
     }
   `)
+
+  useEffect(() => {
+    async function fetchData(){
+      const ONGs = await get_ongs()
+      setONGs(ONGs)
+    }
+    
+    fetchData()
+  }, [])
+
 
   return (
     <>
@@ -33,7 +60,9 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <main>{children}</main>
+        <Provider value={ONGs}>
+          <main>{children}</main>
+        </Provider>
         <footer style={{height:60}}>
           <span style={{display:'none'}}>
             © {new Date().getFullYear()}, Built with {` `} <a href="https://www.gatsbyjs.org">Gatsby</a>
@@ -47,5 +76,3 @@ const Layout = ({ children }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
-
-export default Layout
