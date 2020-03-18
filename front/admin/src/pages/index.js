@@ -79,7 +79,7 @@ const IndexPage = () => <Layout>
         <tbody>
           { ONGs.map(({ name='', email='', phone='', description='', images=[] }, i) => <tr key={i + 1}>
             <th> {i + 1} </th>
-            <td><Link to={`/org/${i + 1}`} title="Leicester City"><strong> { name } </strong></Link></td>
+            <td><Link to={`/edit/${i + 1}`} title={name}><strong> { name } </strong></Link></td>
             <td> { email } </td>
             <td> { phone } </td>
             <td className="is-capitalized"> { String(description.length > 0) } </td>
@@ -91,8 +91,6 @@ const IndexPage = () => <Layout>
       </table>
     }
   </Consumer>
-
-
 </Layout>
 
 

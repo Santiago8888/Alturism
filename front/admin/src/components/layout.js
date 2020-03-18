@@ -6,7 +6,7 @@
  */
 
 
-import { RemoteMongoClient, Stitch, AnonymousCredential } from 'mongodb-stitch-browser-sdk'
+import { RemoteMongoClient, Stitch, AnonymousCredential, BSON } from 'mongodb-stitch-browser-sdk'
 import { useStaticQuery, graphql } from "gatsby"
 
 import React, { useEffect, useState } from "react"
@@ -22,10 +22,11 @@ const collection = 'ONGs'
 
 const client = Stitch.initializeDefaultAppClient(appName)
 client.auth.loginWithCredential(new AnonymousCredential())
-const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db(dbName)
-const get_ongs = () => db.collection(collection).find({}, { limit: 100}).asArray().catch(console.log)
-const post_ong = doc => db.collection(collection).insertOne(doc).catch(console.log)
-
+const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db(dbName).collection(collection)
+const get_ongs = () => db.find({}, { limit: 100}).asArray().catch(console.log)
+const post_ong = doc => db.insertOne(doc).catch(console.log)
+const put_ong = ({_id, ...doc}) => db.updateOne({ _id: new BSON.ObjectID(_id)}, {$set: doc}, {upsert: true}).catch(console.log)
+const delete_ong = ({_id}) => db.deleteOne({_id: new BSON.ObjectID(_id)}).catch(console.log)
 
 export const { Provider, Consumer } = React.createContext({ONGs: []});
 
@@ -62,12 +63,13 @@ export const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <Provider value={{ONGs: ONGs, post:d => post_ong(d)}}>
+        <Provider value={{ONGs: ONGs, post:d => post_ong(d), put:d=> put_ong(d), delete:d => delete_ong(d)}}>
           <main>{children}</main>
         </Provider>
         <footer style={{height:60}}>
           <span style={{display:'none'}}>
-            © {new Date().getFullYear()}, Built with {` `} <a href="https://www.gatsbyjs.org">Gatsby</a>
+            © {new Date().getFullYear()}, Built with {` `} 
+            <a href="https://www.gatsbyjs.org">Gatsby</a>
           </span>
         </footer>
       </div>
