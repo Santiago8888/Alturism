@@ -1,6 +1,6 @@
-import React, { PureComponent, useState } from "react"
+import React, { PureComponent, useState } from 'react'
 import MapGL, { Marker, Popup } from 'react-map-gl'
-import { Consumer } from "../../components/layout"
+import { Consumer } from '../../components/layout'
 import { SideBar } from './sideBar'
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZHpldGEiLCJhIjoiY2s2cWFvbjBzMDIzZzNsbnhxdHI5eXIweCJ9.wQflyJNS9Klwff3dxtHJzg'
@@ -15,13 +15,14 @@ const initialViewState = {
     pitch: 57.30559875583204
 }
 
+const default_image = `http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg`
 const popupInfo = {
-    city:"New York",
-    population:"8,175,133",
-    image:"http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg",
-    state:"New York",
+    city: 'New York',
+    population: '8,175,133',
+    image: default_image,
+    state: 'New York',
     longitude: 20.68, 
-    latitude:-105.36
+    latitude: -105.36
 }
 
 
@@ -37,9 +38,13 @@ class CityInfo extends PureComponent {
         return <div>
             <div>
                 {info.name} |{' '}
-                <a onClick={() => onClick()}>See More</a>
+                <a onClick={() => onClick(info)}>See More</a>
             </div>
-            <img width={240} src={info.image} style={{marginBottom:0}}/>
+            <img 
+                width={240} 
+                style={{marginBottom:0}}
+                src={info.images[0] ? info.images[0] : default_image} 
+            />
         </div>
     }
 }
@@ -56,7 +61,7 @@ class Pins extends PureComponent {
         >
             <svg
                 height={SIZE}
-                viewBox="0 0 24 24"
+                viewBox='0 0 24 24'
                 style={{
                     cursor: 'pointer',
                     fill: '#d00',
@@ -96,18 +101,21 @@ export const Deck = () => {
                 ? 
                     <Popup
                         tipSize={5}
-                        anchor="top"
+                        anchor='top'
                         latitude={window.latitude || ONGs[0].latitude}
                         longitude={window.longitude || ONGs[0].longitude}
                         closeOnClick={false}
                         onClose={() => setWindow(false)}
                     ><CityInfo 
-                        onClick={()=>setSideBar(true)}
+                        onClick={d => setSideBar(d)}
                         info={{...popupInfo, ...window.latitude ? window : ONGs[0] }} 
                     /></Popup>
                 :   null
+            } { 
+                sideBar 
+                ?   <SideBar object={sideBar.latitude ? sideBar : ONGs[0]} onClose={()=> setSideBar(false)}/> 
+                :   null 
             }
-            { sideBar ? <SideBar object={window} onClose={()=> setSideBar(false)}/> : null }
         </MapGL>
     }</Consumer>
 }
