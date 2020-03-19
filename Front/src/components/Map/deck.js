@@ -1,8 +1,7 @@
-import { StaticMap, Marker, Popup } from 'react-map-gl'
 import React, { PureComponent, useState } from "react"
+import MapGL, { Marker, Popup } from 'react-map-gl'
 import { Consumer } from "../../components/layout"
-import DeckGL from '@deck.gl/react'
-
+import { SideBar } from './sideBar'
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZHpldGEiLCJhIjoiY2s2cWFvbjBzMDIzZzNsbnhxdHI5eXIweCJ9.wQflyJNS9Klwff3dxtHJzg'
 const MAP_STYLES = ['light-v10', 'dark-v10', 'outdoors-v11', 'satellite-v9']
@@ -34,14 +33,11 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
 
 class CityInfo extends PureComponent {
     render() {
-        const {info} = this.props;
+        const {info, onClick} = this.props
         return <div>
             <div>
                 {info.name} |{' '}
-                <a
-//                    target="_new"
-//                    href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${displayName}`}
-                >See More</a>
+                <a onClick={() => onClick()}>See More</a>
             </div>
             <img width={240} src={info.image} style={{marginBottom:0}}/>
         </div>
@@ -51,10 +47,10 @@ class CityInfo extends PureComponent {
 
 class Pins extends PureComponent {
     render() {
-        const {data, onClick} = this.props;
+        const {data, onClick} = this.props
     
-        return data.map(d => <Marker
-            key={`marker`} 
+        return data.map((d, i) => <Marker
+            key={`marker-${i}`} 
             latitude={d.latitude}
             longitude={d.longitude} 
         >
@@ -76,16 +72,19 @@ class Pins extends PureComponent {
 
 
 export const Deck = () => {
-    const [ window, setWindow ] = useState(null)
+    const [ window, setWindow ] = useState({})
+    const [ viewport, setViewPort ] = useState(initialViewState)
+    const [ sideBar, setSideBar ] = useState(false)
 
     return <Consumer>{
-        ({ONGs}) =>  <StaticMap 
+        ({ONGs}) =>  <MapGL 
             onContextMenu={event => event.preventDefault()}
             mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} 
             mapStyle={`mapbox://styles/mapbox/${MAP_STYLES[2]}`}
             attributionControl={false}
 
-            {...initialViewState}
+            {...viewport}
+            onViewportChange={setViewPort}
             
             style={{marginLeft:-150}}
             width={1200}
@@ -93,18 +92,22 @@ export const Deck = () => {
         >
             <Pins data={ONGs} onClick={d => setWindow(d)} />
             {
-                window 
+                window && ONGs.length
                 ? 
                     <Popup
                         tipSize={5}
                         anchor="top"
-                        latitude={window.latitude}            
-                        longitude={window.longitude}
+                        latitude={window.latitude || ONGs[0].latitude}
+                        longitude={window.longitude || ONGs[0].longitude}
                         closeOnClick={false}
                         onClose={() => setWindow(false)}
-                    ><CityInfo info={{...popupInfo, ...window}} /></Popup>
+                    ><CityInfo 
+                        onClick={()=>setSideBar(true)}
+                        info={{...popupInfo, ...window.latitude ? window : ONGs[0] }} 
+                    /></Popup>
                 :   null
             }
-        </StaticMap>
+            { sideBar ? <SideBar object={window} onClose={()=> setSideBar(false)}/> : null }
+        </MapGL>
     }</Consumer>
 }
