@@ -1,6 +1,9 @@
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import { Carousel } from 'react-responsive-carousel'
+
 import { useStaticQuery, graphql } from 'gatsby'
+import React, { Component } from 'react'
 import Img from 'gatsby-image'
-import React from 'react'
 
 
 const INFOWINDOW_STYLE = {
@@ -23,20 +26,29 @@ const INFOWINDOW_STYLE = {
 }
 
 const LocationIcon = () => {
-    const data = useStaticQuery(graphql`
-      query {
-        placeholderImage: file(relativePath: { eq: "location.png" }) {
-          childImageSharp {
-            fluid(maxWidth: 300) {
-              ...GatsbyImageSharpFluid
-            }
+  const data = useStaticQuery(graphql`
+    query {
+      placeholderImage: file(relativePath: { eq: "location.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 300) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
-    `)
-  
-    return <Img fluid={data.placeholderImage.childImageSharp.fluid} imgStyle={{height: 24, width:24}} style={{height:24, width:24}}/>
+    }
+  `)
+
+  return <Img fluid={data.placeholderImage.childImageSharp.fluid} imgStyle={{height: 24, width:24}} style={{height:24, width:24}}/>
 }
+
+
+const SideCarousel = ({ images }) => <Carousel>
+  {images.map((img, i) => <div key={i}>
+      <img src={img} />
+      <p className="legend" style={{display: 'none'}}>Legend 1</p>
+  </div>)}
+</Carousel>
+
 
 
 export const SideBar = ({ object, onClose }) => <div style={ INFOWINDOW_STYLE }>
@@ -47,28 +59,25 @@ export const SideBar = ({ object, onClose }) => <div style={ INFOWINDOW_STYLE }>
       alt='close'
     />
 
-    <h2 className='title is-2' style={{color:'rebeccapurple'}}>  { object.name } </h2>
-    <h2 className='subtitle is-5' style={{marginBottom:0, color: '#822'}}> 
-        { object.salary !== 'N/A' ? object.salary : `Salary: NA` } 
-    </h2>
+    <h2 className='title is-2' style={{color:'rebeccapurple', marginBottom:'1rem'}}>  { object.name } </h2>
 
-    <span style={{marginTop: '1.25rem'}}>
+    <span style={{marginTop: '1rem'}}>
         <LocationIcon/>
         <i style={{padding:6}}>{ object.address }</i>
     </span>
 
-    <p style={{marginTop: '1.25rem'}}>
+    <p style={{marginTop: '0rem'}}>
         <strong style={{color: '#363636'}}>Email:</strong> { object.email } <br/>
-
         <strong style={{color: '#363636'}}>Telephone Number: </strong> { object.phone } 
     </p>
 
-    <p style={{marginTop: '1.25rem'}}>
+    <p style={{marginTop: '1.25rem', marginBottom:'1.25rem'}}>
         <strong style={{color: '#363636'}}>Description: </strong> 
         { object.description } 
     </p>
 
-    <div style={{margin:16, position: 'absolute', bottom: 100, width: 290}} align='center'>
+    <SideCarousel images={object.images}/>
+    <div style={{marginTop:'2.5rem'}} align='center'>
         <button className='button is-link is-outlined'>Donate</button>
     </div>
 </div>
