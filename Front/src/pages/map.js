@@ -1,16 +1,14 @@
-import React from "react"
-import { Link } from "gatsby"
-
 import { Layout } from "../components/layout"
+import { Deck } from "../components/Map/deck"
 import SEO from "../components/seo"
 
-const SecondPage = () => (
-  <Layout>
-    <SEO title="Page two" />
-    <h1>Hi from the second page</h1>
-    <p>Welcome to page 2</p>
-    <Link to="/">Go back to the homepage</Link>
-  </Layout>
-)
+import React from "react"
 
-export default SecondPage
+
+const MapView = () => <Layout>
+	<SEO title="Map" />
+	<Deck/>
+</Layout>
+
+
+export default MapView
