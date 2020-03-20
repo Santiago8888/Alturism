@@ -1,7 +1,7 @@
 import Particles from 'react-particles-js'
 import React from "react"
 
-import { Image } from '../components/Landing/image'
+import { Image, MapImage, TrainImage, WaterImage } from '../components/Landing/image'
 import { Layout } from "../components/layout"
 import SEO from "../components/seo"
 
@@ -16,9 +16,9 @@ const particle_params = {
 const SecondPage = () => (
   <Layout mainStyle={{}}>
     <SEO title="Home" />
-    <Image src={'sky.png'}/>
-    <section className="hero" style={{marginTop:-700}}>
-      <div className="hero-body" style={{marginTop:200}}>
+    <Image src="mainImage"/>
+    <section className="hero" style={{marginTop:-700, height:700}}>
+      <div className="hero-body" style={{paddingTop:250, height:700}}>
         <div className="container">
             <div className="columns is-vcentered">
                 <div className="column landing-caption has-text-centered">
@@ -45,8 +45,14 @@ const SecondPage = () => (
             </div>
         </div>
       </div>
+      <Particles params={particle_params} height={700} style={{marginTop:-700}}/>
     </section>
-    <Particles params={particle_params} style={{marginTop:-450}}/>
+
+    <section className="hero" style={{backgroundColor:'rgba(102, 51, 153, 0.66)', height:700, zIndex:2}}>
+      <Image src="waterImage"/>
+      <Image src="trainImage"/>
+      <Image src="mapImage"/>
+    </section>
   </Layout>
 )
 
