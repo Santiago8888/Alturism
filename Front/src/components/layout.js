@@ -28,9 +28,9 @@ const post_ong = doc => db.insertOne(doc).catch(console.log)
 const put_ong = ({_id, ...doc}) => db.updateOne({ _id: new BSON.ObjectID(_id)}, {$set: doc}, {upsert: true}).catch(console.log)
 const delete_ong = ({_id}) => db.deleteOne({_id: new BSON.ObjectID(_id)}).catch(console.log)
 
-export const { Provider, Consumer } = React.createContext({ONGs: []});
 
-export const Layout = ({ children }) => {
+export const { Provider, Consumer } = React.createContext({ONGs: []})
+export const Layout = ({ children, mainStyle, headerStyle }) => {
   const [ ONGs, setONGs ] = useState([])
 
   const data = useStaticQuery(graphql`
@@ -55,13 +55,12 @@ export const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
+      <Header siteTitle={data.site.siteMetadata.title} headerStyle={{ background: `rebeccapurple` }}/>
       <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
+        style={ 
+          mainStyle 
+          ? mainStyle 
+          : { margin: `0 auto`, maxWidth: 960, padding: `0 1.0875rem 1.45rem` }}
       >
         <Provider value={{ONGs: ONGs, post:d => post_ong(d), put:d=> put_ong(d), delete:d => delete_ong(d)}}>
           <main>{children}</main>
@@ -80,3 +79,4 @@ export const Layout = ({ children }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
+
