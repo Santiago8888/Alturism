@@ -6,25 +6,24 @@ const Header = ({ siteTitle, headerStyle }) => (
   <header
     style={
       headerStyle
-      ? headerStyle
-      : { background: `rebeccapurple`, marginBottom: `1.45rem`
-    }}
+      ? { ...headerStyle, height:'10vh'}
+      : { background: `rebeccapurple`, marginBottom: `1.45rem`}}
   >
     <div
       style={{
         margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
+        maxWidth:1160,
+        height:'10vh',
+        padding: `0rem 1.0875rem`,
       }}
     >
-      <h1 style={{ margin: 0 }} className="title is-2">
-        <Link
-          to="/admin"
-          style={{ color: `white`, textDecoration: `none` }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
+      <div style={{ display: 'table-cell', verticalAlign: 'middle', height:'10vh' }}>
+        <h1 style={{ margin: 0 }} className="title is-2">
+          <Link to="/admin" style={{ color: `white`, textDecoration: `none` }}>
+            {siteTitle}
+          </Link>
+        </h1>
+      </div>
     </div>
   </header>
 )

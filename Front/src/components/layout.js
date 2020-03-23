@@ -65,7 +65,7 @@ export const Layout = ({ children, mainStyle, headerStyle }) => {
         <Provider value={{ONGs: ONGs, post:d => post_ong(d), put:d=> put_ong(d), delete:d => delete_ong(d)}}>
           <main>{children}</main>
         </Provider>
-        <footer style={{height:60}}>
+        <footer style={{height:0}}>
           <span style={{display:'none'}}>
             © {new Date().getFullYear()}, Built with {` `} 
             <a href="https://www.gatsbyjs.org">Gatsby</a>

@@ -2,7 +2,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
 
 import { useStaticQuery, graphql } from 'gatsby'
-import React, { Component } from 'react'
+import React from 'react'
 import Img from 'gatsby-image'
 
 
@@ -44,7 +44,7 @@ const LocationIcon = () => {
 
 const SideCarousel = ({ images }) => <Carousel>
   {images.map((img, i) => <div key={i}>
-      <img src={img} />
+      <img src={img} alt={`img-${i}`}/>
       <p className="legend" style={{display: 'none'}}>Legend 1</p>
   </div>)}
 </Carousel>
