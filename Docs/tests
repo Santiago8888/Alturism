@@ -1,0 +1,13 @@
+1. Validate All Links in Admin 
+    - Detail
+    - Post
+    - Edit
+    - Delete
+    - Hero
+    - BreadCrumbs
+
+2. Validate All Methods.
+    - Post
+    - Edit
+    - Delete
+    - Read
