@@ -8,4 +8,9 @@ th{text-align: center !important }
 td{text-align: center !important }
 $title-color: darkgreen;
 
+.card {
+    background-color: transparent !important;
+    box-shadow: none !important
+}
+
 @import "~bulma/bulma.sass"

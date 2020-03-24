@@ -1,13 +1,4 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
-
 import { RemoteMongoClient, Stitch, AnonymousCredential, BSON } from 'mongodb-stitch-browser-sdk'
-import { useStaticQuery, graphql } from "gatsby"
 
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
@@ -33,16 +24,6 @@ export const { Provider, Consumer } = React.createContext({ONGs: []})
 export const Layout = ({ children, mainStyle, headerStyle }) => {
   const [ ONGs, setONGs ] = useState([])
 
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
   useEffect(() => {
     async function fetchData(){
       const ONGs = await get_ongs()
@@ -55,7 +36,7 @@ export const Layout = ({ children, mainStyle, headerStyle }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} headerStyle={{ background: `rebeccapurple` }}/>
+      <Header siteTitle={'Alturism'} headerStyle={{ background: `rebeccapurple` }}/>
       <div
         style={ 
           mainStyle 
@@ -65,12 +46,6 @@ export const Layout = ({ children, mainStyle, headerStyle }) => {
         <Provider value={{ONGs: ONGs, post:d => post_ong(d), put:d=> put_ong(d), delete:d => delete_ong(d)}}>
           <main>{children}</main>
         </Provider>
-        <footer style={{height:0}}>
-          <span style={{display:'none'}}>
-            © {new Date().getFullYear()}, Built with {` `} 
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </span>
-        </footer>
       </div>
     </>
   )

@@ -1,9 +1,6 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
-
-import { useStaticQuery, graphql } from 'gatsby'
 import React from 'react'
-import Img from 'gatsby-image'
 
 
 const INFOWINDOW_STYLE = {
@@ -25,23 +22,8 @@ const INFOWINDOW_STYLE = {
   cursor: 'auto'
 }
 
-const LocationIcon = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      placeholderImage: file(relativePath: { eq: "location.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} imgStyle={{height: 24, width:24}} style={{height:24, width:24}}/>
-}
-
-
+const LocationIcon = () => <img src={'location.png'} style={{height:24, width:24}}/>
 const SideCarousel = ({ images }) => <Carousel>
   {images.map((img, i) => <div key={i}>
       <img src={img} alt={`img-${i}`}/>

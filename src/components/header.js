@@ -1,6 +1,6 @@
-import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+//import { Link } from 'react-router-dom'
 
 const Header = ({ siteTitle, headerStyle }) => (
   <header
@@ -19,9 +19,9 @@ const Header = ({ siteTitle, headerStyle }) => (
     >
       <div style={{ display: 'table-cell', verticalAlign: 'middle', height:'10vh' }}>
         <h1 style={{ margin: 0 }} className="title is-2">
-          <Link to="/admin" style={{ color: `white`, textDecoration: `none` }}>
+          <span to="/admin" style={{ color: `white`, textDecoration: `none` }}>
             {siteTitle}
-          </Link>
+          </span>
         </h1>
       </div>
     </div>
