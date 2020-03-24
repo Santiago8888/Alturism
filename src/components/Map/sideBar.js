@@ -59,7 +59,4 @@ export const SideBar = ({ object, onClose }) => <div style={ INFOWINDOW_STYLE }>
     </p>
 
     <SideCarousel images={object.images}/>
-    <div style={{marginTop:'2.5rem'}} align='center'>
-        <button className='button is-link is-outlined'>Donate</button>
-    </div>
 </div>
